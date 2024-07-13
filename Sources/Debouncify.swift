@@ -46,12 +46,9 @@ import Foundation
 /// let searchAfter300ms = Debouncify(by: .milliseconds(300), search)
 /// var task: Task<Any, Any>? = nil
 ///
-/// Task {
-///     Task { await searchAfter300ms() }
-///
-///     // now eg. the user has hit ESC to cancel
-///     searchAfter300ms.cancel()
-/// }
+/// Task { await searchAfter300ms() }
+/// // now eg. the user has hit ESC to cancel
+/// Task { await searchAfter300ms.cancel() }
 /// ```
 public actor Debouncify<each Parameter: Sendable>: Sendable {
   private let delay: Duration
