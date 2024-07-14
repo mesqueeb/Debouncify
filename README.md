@@ -34,6 +34,8 @@ var body: some View {
 }
 ```
 
+### Canceling the debounced Task
+
 If you need to cancel the debounced execution of your search function, eg. when the user hits ESC, you can pass a binding with a `Task` which you can then cancel.
 
 Example:
