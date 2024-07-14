@@ -1,12 +1,10 @@
 import Foundation
 
-/// `Debouncify` is a helper class to easily debounce function calls.
+/// `Debouncify` is an actor to easily wrap a function and make it debounce on every call by a specified duration
 ///
 /// ## Usage
 ///
-/// Suppose you have a function that you want to execute on every keystroke, but debounce it by 300ms to only execute it after the user has stopped typing for a certain amount of time.
-///
-/// You can use `Debouncify` to wrap this function and it will automatically get debounced each subsequent call.
+/// Use `Debouncify` to wrap a function and it will automatically get debounced each subsequent call.
 ///
 /// Example:
 ///
@@ -23,15 +21,13 @@ import Foundation
 /// // Usage
 /// Task {
 ///     Task { await searchAfter300ms() }
-///     try await Task.sleep(for: .seconds(0.1))
+///     try await Task.sleep(for: .milliseconds(100))
 ///     Task { await searchAfter300ms() }
-///     try await Task.sleep(for: .seconds(0.1))
+///     try await Task.sleep(for: .milliseconds(100))
 ///     Task { await searchAfter300ms() }
 /// }
 /// // it will only print "searching!" once after 300ms
 /// ```
-///
-/// This example demonstrates how `Debouncify` can be used to make sure a function is only called after a certain amount of time has passed since the last call, canceling out any previous executions. Otherwise known as debouncing.
 ///
 /// ### Canceling the debounced Task
 ///
@@ -47,7 +43,7 @@ import Foundation
 /// var task: Task<Any, Any>? = nil
 ///
 /// Task { await searchAfter300ms() }
-/// // now eg. the user has hit ESC to cancel
+/// // if the search needs to be cancelled before the Task above finishes
 /// Task { await searchAfter300ms.cancel() }
 /// ```
 public actor Debouncify<each Parameter: Sendable>: Sendable {
