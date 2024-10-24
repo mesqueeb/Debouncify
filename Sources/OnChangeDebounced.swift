@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension View {
+extension View {
   /// `onChangeDebounced` is a SwiftUI View modifier like `onChange` but makes it debounce on every call by a specified duration
   ///
   /// ## Usage
@@ -58,7 +58,7 @@ public extension View {
   ///         }
   /// }
   /// ```
-  func onChangeDebounced<Value>(
+  public func onChangeDebounced<Value>(
     of value: Value,
     after: Duration,
     task: Binding<Task<Void, Never>?>? = nil,

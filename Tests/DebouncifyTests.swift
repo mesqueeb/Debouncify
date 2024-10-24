@@ -1,6 +1,7 @@
-@testable import Debouncify
 import Foundation
 import Testing
+
+@testable import Debouncify
 
 public actor TestSearchState: Sendable {
   public var searchedFor: Any? = nil
@@ -17,9 +18,7 @@ public actor TestSearchState: Sendable {
 
 @Test func simpleTest() async throws {
   let state = TestSearchState()
-  @Sendable func search() async {
-    await state.search()
-  }
+  @Sendable func search() async { await state.search() }
 
   let searchAfter300ms = Debouncify(call: search, after: .milliseconds(300))
 
@@ -39,9 +38,7 @@ public actor TestSearchState: Sendable {
 
 @Test func simpleTestCancel() async throws {
   let state = TestSearchState()
-  @Sendable func search() async {
-    await state.search()
-  }
+  @Sendable func search() async { await state.search() }
 
   let searchAfter300ms = Debouncify(call: search, after: .milliseconds(300))
 
@@ -63,9 +60,7 @@ public actor TestSearchState: Sendable {
 
 @Test func simpleTestWith1Param() async throws {
   let state = TestSearchState()
-  @Sendable func search(_ _for: String) async {
-    await state.search(_for)
-  }
+  @Sendable func search(_ _for: String) async { await state.search(_for) }
 
   let searchAfter300ms = Debouncify(call: search, after: .milliseconds(300))
 
@@ -89,9 +84,7 @@ public actor TestSearchState: Sendable {
 
 @Test func simpleTestWith2Params() async throws {
   let state = TestSearchState()
-  @Sendable func search(_ _for: String, _ _x: Int) async {
-    await state.search(_for, _x)
-  }
+  @Sendable func search(_ _for: String, _ _x: Int) async { await state.search(_for, _x) }
 
   let searchAfter300ms = Debouncify(call: search, after: .milliseconds(300))
 

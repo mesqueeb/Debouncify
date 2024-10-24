@@ -51,7 +51,10 @@ public actor Debouncify<each Parameter: Sendable>: Sendable {
   private let fn: @Sendable (repeat each Parameter) async -> Void
   private var currentTask: Task<Void, Never>?
 
-  public init(call fn: @Sendable @escaping (repeat each Parameter) async -> Void, after delay: Duration) {
+  public init(
+    call fn: @Sendable @escaping (repeat each Parameter) async -> Void,
+    after delay: Duration
+  ) {
     self.delay = delay
     self.fn = fn
   }
