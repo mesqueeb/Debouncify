@@ -46,6 +46,7 @@ import Foundation
 /// // if the search needs to be cancelled before the Task above finishes
 /// Task { await searchAfter300ms.cancel() }
 /// ```
+@available(macOS 14.0, iOS 17.0, watchOS 10.0, tvOS 17.0, *)
 public actor Debouncify<each Parameter: Sendable>: Sendable {
   private let delay: Duration
   private let fn: @Sendable (repeat each Parameter) async -> Void
