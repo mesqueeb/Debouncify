@@ -52,8 +52,8 @@ public actor TestSearchState: Sendable {
   #expect(!(await state.hasSearched))
   Task { await searchAfter300ms() }
   #expect(!(await state.hasSearched))
-  try await Task.sleep(for: .milliseconds(290))
-  Task { await searchAfter300ms.cancel() }
+  try await Task.sleep(for: .milliseconds(100))
+  await searchAfter300ms.cancel()
   try await Task.sleep(for: .milliseconds(400))
   #expect(!(await state.hasSearched))
 }
