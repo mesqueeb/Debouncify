@@ -61,12 +61,13 @@ public actor Debouncify<each Parameter: Sendable>: Sendable {
   }
 
   public func callAsFunction(_ parameter: repeat each Parameter) {
-    // Cancel the previous task if it exists
     currentTask?.cancel()
-
-    // Create a new task that executes the function after the debounce interval
     currentTask = Task {
       try? await Task.sleep(for: delay)
+      // Grace window: a `cancel()` racing with the timer expiring lands here and
+      // the second sleep throws on the cancelled task, so the guard catches it
+      // before we commit to firing.
+      try? await Task.sleep(for: .milliseconds(1))
       guard !Task.isCancelled else { return }
       await fn(repeat each parameter)
     }

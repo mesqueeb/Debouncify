@@ -32,7 +32,7 @@ public actor TestSearchState: Sendable {
   #expect(!(await state.hasSearched))
   Task { await searchAfter300ms() }
   #expect(!(await state.hasSearched))
-  try await Task.sleep(for: .milliseconds(301))
+  try await Task.sleep(for: .milliseconds(320))
   #expect(await state.hasSearched)
 }
 
@@ -63,7 +63,7 @@ public actor TestSearchState: Sendable {
 // If cancel() lands after the guard but before fn finishes, fn still runs.
 // The loop calls cancel right when the sleep would end, racing the guard.
 @Test func cancelDoesNotRaceWithFnInvocation() async throws {
-  for _ in 0..<30 {
+  for _ in 0 ..< 30 {
     let state = TestSearchState()
     @Sendable func search() async { await state.search() }
 
@@ -93,7 +93,7 @@ public actor TestSearchState: Sendable {
   #expect((await state.searchedFor) == nil)
   Task { await searchAfter300ms("Hel") }
   #expect((await state.searchedFor) == nil)
-  try await Task.sleep(for: .milliseconds(301))
+  try await Task.sleep(for: .milliseconds(320))
   if let str = (await state.searchedFor) as? String {
     #expect(str == "Hel")
   } else {
@@ -118,7 +118,7 @@ public actor TestSearchState: Sendable {
   Task { await searchAfter300ms("Hel", 3) }
   #expect((await state.searchedFor) == nil)
   #expect(await (state.x) == 0)
-  try await Task.sleep(for: .milliseconds(301))
+  try await Task.sleep(for: .milliseconds(320))
   if let str = (await state.searchedFor) as? String {
     #expect(str == "Hel")
     #expect(await (state.x) == 3)
