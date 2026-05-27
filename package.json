@@ -20,5 +20,6 @@
     "url": "https://github.com/mesqueeb/Debouncify.git"
   },
   "homepage": "https://github.com/mesqueeb/Debouncify#readme",
-  "bugs": "https://github.com/mesqueeb/Debouncify/issues"
+  "bugs": "https://github.com/mesqueeb/Debouncify/issues",
+  "packageManager": "pnpm@11.3.0"
 }
