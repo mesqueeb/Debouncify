@@ -58,6 +58,25 @@ public actor TestSearchState: Sendable {
   #expect(!(await state.hasSearched))
 }
 
+// Exposes the race in `Debouncify.callAsFunction`'s Task body:
+//   sleep → `guard !Task.isCancelled` → `await fn(...)`
+// If cancel() lands after the guard but before fn finishes, fn still runs.
+// The loop calls cancel right when the sleep would end, racing the guard.
+@Test func cancelDoesNotRaceWithFnInvocation() async throws {
+  for _ in 0..<30 {
+    let state = TestSearchState()
+    @Sendable func search() async { await state.search() }
+
+    let searchAfter50ms = Debouncify(call: search, after: .milliseconds(50))
+
+    Task { await searchAfter50ms() }
+    try await Task.sleep(for: .milliseconds(50))
+    await searchAfter50ms.cancel()
+    try await Task.sleep(for: .milliseconds(100))
+    #expect(!(await state.hasSearched))
+  }
+}
+
 @Test func simpleTestWith1Param() async throws {
   let state = TestSearchState()
   @Sendable func search(_ _for: String) async { await state.search(_for) }
